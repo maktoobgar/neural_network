@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2qvx4h0jtne0"]
+
+[ext_resource type="Script" path="res://scenes/neuron.gd" id="1_vhq5r"]
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input.tscn" id="1_vth81"]
+
+[node name="Neuron" type="GraphNode"]
+custom_minimum_size = Vector2(400, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -880.0
+offset_bottom = -594.0
+grow_horizontal = 2
+grow_vertical = 2
+title = "Neuron"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_vhq5r")
+
+[node name="ValuesContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Net" parent="ValuesContainer" instance=ExtResource("1_vth81")]
+layout_mode = 2
+text = "Net:"
+force_int = false
+force_float = false
+min_value = 0.0
+max_value = 0.0
+force_min = false
+force_max = false
+
+[node name="ActivationFunction" parent="ValuesContainer" instance=ExtResource("1_vth81")]
+layout_mode = 2
+text = "Activation Function:"
+options = Array[String](["None", "Sigmoid", "Tanh"])
+force_int = false
+force_float = false
+min_value = 0.0
+max_value = 0.0
+force_min = false
+force_max = false
+input_type = "OptionButton"

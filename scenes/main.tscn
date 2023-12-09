@@ -1,0 +1,171 @@
+[gd_scene load_steps=3 format=3 uid="uid://ini601lpdqfe"]
+
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input.tscn" id="1_tlwrc"]
+[ext_resource type="Script" path="res://scenes/manager.gd" id="1_ub3ly"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ub3ly")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CornerMargins" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MainSpliterContainer" type="HBoxContainer" parent="Panel/CornerMargins"]
+layout_mode = 2
+
+[node name="Sidebar" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="SidebarContentContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Controls" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="InputCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Inputs Count:"
+initial_value = "0"
+force_int = true
+force_min = true
+
+[node name="LearningRate" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Learning Rate:"
+initial_value = "0"
+force_float = true
+max_value = 1.0
+force_min = true
+force_max = true
+
+[node name="NeuronsCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Neurons Count:"
+initial_value = "0"
+force_int = true
+force_min = true
+
+[node name="ActivationFunction" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Activation Function:"
+options = Array[String](["None", "Sigmoid", "Tanh"])
+input_type = "OptionButton"
+
+[node name="LayersCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Layers Count:"
+initial_value = "0"
+force_int = true
+max_value = 5.0
+force_min = true
+force_max = true
+
+[node name="Layers" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="LayersContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls/Layers"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ApplyChanges" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls"]
+layout_mode = 2
+text = "Apply Changes"
+
+[node name="Label" type="Label" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls"]
+layout_mode = 2
+text = "NC = Neurons Count"
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SplitInHalf" type="HBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Input" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Input"
+
+[node name="Test" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Test"
+
+[node name="Train" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+layout_mode = 2
+disabled = true
+text = "Train"
+
+[node name="Reset" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Reset"
+
+[node name="Content" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ContentContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Neurons" type="GraphEdit" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Temporary" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Temporary"]
+layout_mode = 2
+text = "Log Comes Here"
+
+[connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls/ApplyChanges" to="." method="_on_apply_changes_button_up"]

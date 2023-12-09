@@ -9,15 +9,14 @@ theme_override_constants/separation = 15
 title = " Layer"
 slot/0/left_enabled = false
 slot/0/left_type = 0
-slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_color = Color(0.168627, 0.6, 0, 1)
 slot/0/left_icon = null
 slot/0/right_enabled = false
 slot/0/right_type = 0
-slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_color = Color(0, 0.654902, 0.92549, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("1_3bi70")
-neurons_count = 1
 
 [node name="Menu" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -25,4 +24,5 @@ layout_mode = 2
 [node name="ActivationFunction" parent="Menu" instance=ExtResource("2_kcbq1")]
 layout_mode = 2
 text = "Activation Function:"
+options = Array[String](["None", "Sigmoid", "Tanh"])
 input_type = "OptionButton"

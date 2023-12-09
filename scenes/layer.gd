@@ -18,17 +18,18 @@ func _get_neurons_count() -> int:
 
 func _set_neurons_count(value: int) -> void:
 	value = max(value, 0)
+	var children_count = max(self.get_child_count() - 2, -1)
 	for i in range(value):
-		if self.get_child_count() - 1 >= i:
+		if children_count >= i:
 			continue
 		var neuron: Neuron = SceneManager.create_scene_instance("neuron")
 		neurons.append(neuron)
 		neuron.set_meta("layer", layer_number)
 		neuron.id = i
-		self.set_slot(i, true, 0, Color("#2b9900"), true, 0, Color("#00a7ec"))
+		self.set_slot(i + 1, true, 0, Color("#2b9900"), true, 0, Color("#00a7ec"))
 		self.add_child(neuron)
 
-	var difference = self.get_child_count() - value
+	var difference = (self.get_child_count() - 1) - value
 	for i in range(difference):
 		neurons.pop_back().queue_free()
 	neurons_count = value

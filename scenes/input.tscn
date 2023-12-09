@@ -7,6 +7,7 @@ offset_right = 267.0
 offset_bottom = 23.0
 theme_override_constants/separation = 10
 script = ExtResource("1_s3hrh")
+editable = true
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true

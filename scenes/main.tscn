@@ -49,13 +49,21 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Controls" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer"]
+[node name="Margin" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="Controls" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="InputCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+[node name="InputCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Inputs Count:"
@@ -63,7 +71,7 @@ initial_value = "0"
 force_int = true
 force_min = true
 
-[node name="LearningRate" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+[node name="LearningRate" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Learning Rate:"
@@ -73,22 +81,22 @@ max_value = 1.0
 force_min = true
 force_max = true
 
-[node name="NeuronsCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+[node name="Epoch" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Neurons Count:"
+text = "Epoch:"
 initial_value = "0"
 force_int = true
 force_min = true
 
-[node name="ActivationFunction" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+[node name="ActivationFunction" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Activation Function:"
 options = Array[String](["None", "Sigmoid", "Tanh"])
 input_type = "OptionButton"
 
-[node name="LayersCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls" instance=ExtResource("1_tlwrc")]
+[node name="LayersCount" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Layers Count:"
@@ -98,20 +106,20 @@ max_value = 5.0
 force_min = true
 force_max = true
 
-[node name="Layers" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls"]
+[node name="Layers" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 
-[node name="LayersContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls/Layers"]
+[node name="LayersContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/Layers"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ApplyChanges" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls"]
+[node name="ApplyChanges" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
 layout_mode = 2
 text = "Apply Changes"
 
-[node name="Label" type="Label" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls"]
+[node name="Label" type="Label" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
 layout_mode = 2
 text = "NC = Neurons Count"
 
@@ -167,5 +175,10 @@ layout_mode = 2
 layout_mode = 2
 text = "Log Comes Here"
 
-[connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
-[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Controls/ApplyChanges" to="." method="_on_apply_changes_button_up"]
+[node name="Popup" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(199, 100)
+
+[connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/ApplyChanges" to="." method="_on_apply_changes_button_up"]
+[connection signal="connection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_connection_request"]

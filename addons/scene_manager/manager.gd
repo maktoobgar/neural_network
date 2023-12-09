@@ -7,7 +7,7 @@ const SETTINGS_PROPERTY_NAME := "scene_manager/scenes/scenes_path"
 const PATH: String = "res://addons/scene_manager/scenes.gd"
 const ROOT_ADDRESS = "res://"
 # prefile
-const comment: String = "#\n# Please do not edit anything in this script\n#\n# Just use the editor to change everything you want\n#\n"
+const comment: String = "@tool\n#\n# Please do not edit anything in this script\n#\n# Just use the editor to change everything you want\n#\n"
 const extend_part: String = "extends Node\n\n"
 const var_part: String = "var scenes: Dictionary = "
 # scene item, ignore item
@@ -354,7 +354,7 @@ func _remove_ignore_list_and_sections_from_dic(dic: Dictionary) -> Dictionary:
 # Saves all data in `scenes` variable of `scenes.gd` file
 func _save_all(data: Dictionary) -> void:
 	var file := FileAccess.open(ProjectSettings.get_setting(SETTINGS_PROPERTY_NAME, PATH), FileAccess.WRITE)
-	var write_data: String = comment + extend_part + var_part + JSON.new().stringify(data) + "\n"
+	var write_data: String = comment + extend_part + var_part + JSON.new().stringify(data) + "\n"#\n
 	file.store_string(write_data)
 
 # Returns all data in `scenes` variable of `scenes.gd` file

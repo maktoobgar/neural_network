@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ss8fml4si282"]
+
+[ext_resource type="Script" path="res://scenes/layer.gd" id="1_3bi70"]
+
+[node name="Layer" type="GraphNode"]
+theme_override_constants/separation = 15
+title = " Layer"
+script = ExtResource("1_3bi70")

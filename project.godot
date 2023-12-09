@@ -17,8 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Global="*res://scenes/global.gd"
 SceneManager="*res://addons/scene_manager/scene_manager.tscn"
-Scenes="*res://addons/scene_manager/scenes.gd"
+Scenes="*res://scenes/scenes.gd"
 
 [display]
 
@@ -33,3 +34,7 @@ enabled=PackedStringArray("res://addons/scene_manager/plugin.cfg")
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[scene_manager]
+
+scenes/scenes_path="res://scenes/scenes.gd"

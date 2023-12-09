@@ -6,6 +6,7 @@ class_name InputControl
 @export var text: String = "" : set = _set_text, get = _get_text
 @export var options: Array[String] = []
 @export var with_label: bool = true : set = _set_with_label, get = _get_with_label
+@export var editable: bool = false : set = _set_editable, get = _get_editable
 @export var initial_value: String = ""
 @export var force_int: bool = false
 @export var force_float: bool = false
@@ -41,6 +42,7 @@ func create_input_control(value: String) -> void:
 
 func _ready() -> void:
 	create_input_control(input_type)
+	editable = false
 	%Label.text = text
 	%Label.visible = with_label
 
@@ -57,22 +59,34 @@ func _make_current_input(node: Node) -> void:
 
 func _set_text(value: String) -> void:
 	%Label.text = value
-	text = value
 
 func _get_text() -> String:
 	return %Label.text
 
 func _set_with_label(value: bool) -> void:
 	%Label.visible = value
-	with_label = value
 
 func _get_with_label() -> bool:
 	return with_label
 
+func _set_editable(value: bool) -> void:
+	if !input:
+		await self.ready
+	if input_type == "OptionButton":
+		input.disabled = !value
+	elif input_type == "Text":
+		input.editable = value
+
+func _get_editable() -> bool:
+	if input_type == "OptionButton":
+		return !input.disabled
+	elif input_type == "Text":
+		return input.editable
+	return false
+
 func _set_value(value: String) -> void:
 	if input_type == "Text":
 		input.text = value
-	value = value
 
 func _get_value() -> String:
 	if input_type == "Text":

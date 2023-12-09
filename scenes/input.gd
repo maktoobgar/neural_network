@@ -65,6 +65,7 @@ func _get_text() -> String:
 
 func _set_with_label(value: bool) -> void:
 	%Label.visible = value
+	with_label = value
 
 func _get_with_label() -> bool:
 	return with_label

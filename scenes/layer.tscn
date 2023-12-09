@@ -1,8 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://ss8fml4si282"]
+[gd_scene load_steps=3 format=3 uid="uid://ss8fml4si282"]
 
 [ext_resource type="Script" path="res://scenes/layer.gd" id="1_3bi70"]
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input.tscn" id="2_kcbq1"]
 
 [node name="Layer" type="GraphNode"]
+custom_minimum_size = Vector2(400, 0)
 theme_override_constants/separation = 15
 title = " Layer"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
 script = ExtResource("1_3bi70")
+neurons_count = 1
+
+[node name="Menu" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ActivationFunction" parent="Menu" instance=ExtResource("2_kcbq1")]
+layout_mode = 2
+text = "Activation Function:"
+input_type = "OptionButton"

@@ -12,6 +12,8 @@ func _get_layer_type() -> Global.LayerType:
 	return layer_type
 
 func _set_layer_type(value: Global.LayerType) -> void:
+	if !self.is_node_ready():
+		await self.ready
 	for i in range(self.get_child_count()):
 		self.get_child(i).set_meta("layer_type", value)
 		if value == Global.LayerType.NeuronsInput:

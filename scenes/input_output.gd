@@ -7,7 +7,7 @@ var id: int: set = _set_id, get = _get_id
 var value: float: set = _set_value, get = _get_value
 
 func _set_id(value: int) -> void:
-	self.title = Global.get_input_output_name(value + 1)
+	self.title = Global.get_input_output_name(id + 1)
 	id = value
 
 func _get_id() -> int:
@@ -16,7 +16,10 @@ func _get_id() -> int:
 func _set_value(value: float) -> void:
 	if !self.is_node_ready():
 		await self.ready
-	%Value.text = value
+	%Value.value = str(value)
 
 func _get_value() -> float:
-	return float(%Value.text)
+	return float(%Value.value)
+
+func update_value(value: float) -> void:
+	self.value = value

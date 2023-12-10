@@ -4,7 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input_control.tscn" id="2_kcbq1"]
 
 [node name="Layer" type="GraphNode"]
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(450, 0)
+offset_right = 450.0
+offset_bottom = 85.0
 theme_override_constants/separation = 15
 title = "First Layer"
 slot/0/left_enabled = false
@@ -17,6 +19,7 @@ slot/0/right_color = Color(0, 0.654902, 0.92549, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
 script = ExtResource("1_3bi70")
+layer_id = null
 
 [node name="Menu" type="VBoxContainer" parent="."]
 layout_mode = 2

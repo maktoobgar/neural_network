@@ -1,19 +1,28 @@
 @tool
 extends GraphNode
 
-@export var layer_number: int = 1: get = _get_layer_number, set = _set_layer_number
+class_name Layer
+
+@export var layer_id: int = 1: get = _get_layer_id, set = _set_layer_id
 @export var neurons_count: int: get = _get_neurons_count, set = _set_neurons_count
 
-var neurons: Array[Neuron] = []
+var activation_function: String: set = _set_activation_function, get = _get_activation_function
+var all_neurons: Array[Neuron] = []
 
-func _get_layer_number() -> int:
-	return layer_number
+func _set_activation_function(value: String) -> void:
+	%ActivationFunction.value = value
 
-func _set_layer_number(value: int) -> void:
+func _get_activation_function() -> String:
+	return %ActivationFunction.value
+
+func _get_layer_id() -> int:
+	return layer_id
+
+func _set_layer_id(value: int) -> void:
 	if !self.is_node_ready():
 		await self.ready
 	self.title = Global.get_layer_name(value)
-	layer_number = value
+	layer_id = value
 
 func _get_neurons_count() -> int:
 	return neurons_count
@@ -27,21 +36,23 @@ func _set_neurons_count(value: int) -> void:
 		if children_count >= i:
 			continue
 		var neuron: Neuron = SceneManager.create_scene_instance("neuron")
-		neurons.append(neuron)
-		neuron.set_meta("layer_number", layer_number)
+		all_neurons.append(neuron)
+		neuron.set_meta("layer_id", layer_id)
 		neuron.set_meta("layer_type", Global.LayerType.Neurons)
 		neuron.id = i
-		neuron.activation_function = %ActivationFunction.value
+		neuron.activation_function = activation_function
+		neuron.layer_node = self
 		self.set_slot(i + 1, true, 0, Color("#2b9900"), true, 0, Color("#00a7ec"))
 		self.add_child(neuron)
 
 	var difference = (self.get_child_count() - 1) - value
 	for i in range(difference):
-		neurons.pop_back().queue_free()
+		all_neurons.pop_back().free()
 	neurons_count = value
+	self.size.y = 0
 
 func _ready():
-	self.title = Global.get_layer_name(layer_number)
+	self.title = Global.get_layer_name(layer_id)
 
 func _on_activation_function_item_selected(inputControl: InputControl):
 	for i in range(self.get_child_count()):

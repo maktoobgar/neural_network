@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: added nn generation
 - 🎉 feat: input and output layers added
 - 🎉 feat: added details button on each neuron + bug fix
 - 🎉 feat: basic layer + neuron blocks added

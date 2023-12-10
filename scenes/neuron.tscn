@@ -7,6 +7,7 @@
 custom_minimum_size = Vector2(400, 0)
 offset_right = 400.0
 offset_bottom = 85.0
+theme_override_constants/separation = 15
 title = "Neuron"
 show_close = true
 slot/0/left_enabled = false
@@ -18,25 +19,19 @@ slot/0/right_type = 0
 slot/0/right_color = Color(0, 0.654902, 0.92549, 1)
 slot/0/right_icon = null
 slot/0/draw_stylebox = true
-slot/1/left_enabled = false
-slot/1/left_type = 0
-slot/1/left_color = Color(1, 1, 1, 1)
-slot/1/left_icon = null
-slot/1/right_enabled = false
-slot/1/right_type = 0
-slot/1/right_color = Color(1, 1, 1, 1)
-slot/1/right_icon = null
-slot/1/draw_stylebox = true
 script = ExtResource("1_vhq5r")
 
-[node name="ValuesContainer" type="VBoxContainer" parent="."]
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ValuesContainer" type="VBoxContainer" parent="MainContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="ActivationFunction" parent="ValuesContainer" instance=ExtResource("1_vth81")]
+[node name="ActivationFunction" parent="MainContainer/ValuesContainer" instance=ExtResource("1_vth81")]
 unique_name_in_owner = true
 layout_mode = 2
 value = "Tanh"
@@ -44,7 +39,7 @@ text = "Activation Function:"
 options = Array[String](["None", "Sigmoid", "Tanh"])
 input_type = "OptionButton"
 
-[node name="Net" parent="ValuesContainer" instance=ExtResource("1_vth81")]
+[node name="Net" parent="MainContainer/ValuesContainer" instance=ExtResource("1_vth81")]
 unique_name_in_owner = true
 layout_mode = 2
 value = "0"
@@ -52,7 +47,7 @@ text = "Net:"
 initial_value = "0"
 force_float = true
 
-[node name="Output" parent="ValuesContainer" instance=ExtResource("1_vth81")]
+[node name="Output" parent="MainContainer/ValuesContainer" instance=ExtResource("1_vth81")]
 unique_name_in_owner = true
 layout_mode = 2
 value = "0"
@@ -60,10 +55,11 @@ text = "Output:"
 initial_value = "0"
 force_float = true
 
-[node name="Details" type="Button" parent="."]
+[node name="Details" type="Button" parent="MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Details"
 
 [connection signal="close_request" from="." to="." method="_on_close_request"]
-[connection signal="button_up" from="Details" to="." method="_on_show_button_up"]
+[connection signal="text_changed" from="MainContainer/ValuesContainer/Output" to="." method="_on_output_text_changed"]
+[connection signal="button_up" from="MainContainer/Details" to="." method="_on_show_button_up"]

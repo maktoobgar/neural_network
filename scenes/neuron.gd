@@ -6,6 +6,7 @@ class_name Neuron
 var id: int: set = _set_id, get = _get_id
 var net: float: set = _set_net, get = _get_net
 var output: float: set = _set_output, get = _get_output
+var activation_function: String: set = _set_activation_function, get = _get_activation_function
 
 func _set_id(value: int) -> void:
 	self.title = Global.get_neuron_name(value + 1)
@@ -25,6 +26,12 @@ func _set_output(value: float) -> void:
 
 func _get_output() -> float:
 	return float(%Output.value)
+
+func _set_activation_function(value: String) -> void:
+	%ActivationFunction.value = value
+
+func _get_activation_function() -> String:
+	return %ActivationFunction.value
 
 func _on_close_request():
 	%Details.visible = true

@@ -1,6 +1,7 @@
 @tool
 extends Node
 
+enum LayerType {NeuronsInput, NeuronsOutput, Neurons}
 var layers = {
 	0: "",
 	1: "First",
@@ -34,14 +35,24 @@ var layers = {
 
 func get_layer_name(num) -> String:
 	if num > 99:
-		return "Invalid number"
+		return "Invalid Number"
 	if num > 20:
-		return (layers.get((num/10)*10, "Invalid number") + " " + layers.get(num%10, "Invalid number") + " Layer").replace("  ", " ")
-	return layers.get(num, "Invalid number") + " Layer"
+		return (layers.get((num/10)*10, "Invalid Number") + " " + layers.get(num%10, "Invalid Number") + " Layer").replace("  ", " ")
+	return layers.get(num, "Invalid Number") + " Layer"
 
-func get_neuron_name(num) -> String:
+func get_input_output_layer_name(type: LayerType) -> String:
+	return LayerType.keys()[type].replace("Neurons", "") + " Layer"
+
+func get_input_output_name(num: int) -> String:
+	if num > 99:
+		return "99+"
+	if num > 20:
+		return (layers.get((num/10)*10, "Invalid Number") + " " + layers.get(num%10, "Invalid Number")).replace("  ", " ")
+	return layers.get(num, "Invalid Number")
+
+func get_neuron_name(num: int) -> String:
 	if num > 99:
 		return "99+ Neuron"
 	if num > 20:
-		return (layers.get((num/10)*10, "Invalid number") + " " + layers.get(num%10, "Invalid number") + " Neuron").replace("  ", " ")
-	return layers.get(num, "Invalid number") + " Neuron"
+		return (layers.get((num/10)*10, "Invalid Number") + " " + layers.get(num%10, "Invalid Number") + " Neuron").replace("  ", " ")
+	return layers.get(num, "Invalid Number") + " Neuron"

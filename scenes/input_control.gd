@@ -3,6 +3,7 @@ extends Node
 
 class_name InputControl
 
+@export var value: String = "" : set = _set_value, get = _get_value
 @export var text: String = "" : set = _set_text, get = _get_text
 @export var options: Array[String] = []
 @export var with_label: bool = true : set = _set_with_label, get = _get_with_label
@@ -16,7 +17,6 @@ class_name InputControl
 @export var force_max: bool = false
 @export_enum("Text", "OptionButton") var input_type: String = "Text" : set = _set_type, get = _get_type
 
-var value: String = "" : set = _set_value, get = _get_value
 var input: Control = null
 
 signal text_changed(inputControl: InputControl)
@@ -38,7 +38,14 @@ func create_input_control(value: String) -> void:
 		_make_current_input(optionButton)
 		optionButton.item_selected.connect(_item_selected)
 		if initial_value != "":
-			optionButton.selected = int(initial_value)
+			if initial_value.is_valid_int():
+				input.selected = int(initial_value)
+			else:
+				for i in range(len(options)):
+					if options[i] == initial_value:
+						input.selected = i
+		else:
+			input.selected = -1
 
 func _ready() -> void:
 	create_input_control(input_type)
@@ -71,7 +78,7 @@ func _get_with_label() -> bool:
 	return with_label
 
 func _set_editable(value: bool) -> void:
-	if !input:
+	if !self.is_node_ready():
 		await self.ready
 	if input_type == "OptionButton":
 		input.disabled = !value
@@ -86,8 +93,19 @@ func _get_editable() -> bool:
 	return false
 
 func _set_value(value: String) -> void:
+	if !self.is_node_ready():
+		await self.ready
 	if input_type == "Text":
 		input.text = value
+	if input_type == "OptionButton":
+		if value == "":
+			input.selected = 0
+		if value.is_valid_int():
+			input.selected = int(value)
+		else:
+			for i in range(len(options)):
+				if options[i] == value:
+					input.selected = i
 
 func _get_value() -> String:
 	if input_type == "Text":

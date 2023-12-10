@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b52mxyix8ftrk"]
+
+[ext_resource type="Script" path="res://scenes/input_output.gd" id="1_8wokr"]
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input_control.tscn" id="2_8ib15"]
+
+[node name="InputOutput" type="GraphNode"]
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_8wokr")
+
+[node name="ValuesContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Value" parent="ValuesContainer" instance=ExtResource("2_8ib15")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "0"
+text = "Value:"
+force_float = true

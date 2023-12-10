@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2qvx4h0jtne0"]
 
 [ext_resource type="Script" path="res://scenes/neuron.gd" id="1_vhq5r"]
-[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input.tscn" id="1_vth81"]
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input_control.tscn" id="1_vth81"]
 
 [node name="Neuron" type="GraphNode"]
 custom_minimum_size = Vector2(400, 0)
@@ -39,6 +39,7 @@ theme_override_constants/separation = 10
 [node name="ActivationFunction" parent="ValuesContainer" instance=ExtResource("1_vth81")]
 unique_name_in_owner = true
 layout_mode = 2
+value = "Tanh"
 text = "Activation Function:"
 options = Array[String](["None", "Sigmoid", "Tanh"])
 input_type = "OptionButton"
@@ -46,16 +47,16 @@ input_type = "OptionButton"
 [node name="Net" parent="ValuesContainer" instance=ExtResource("1_vth81")]
 unique_name_in_owner = true
 layout_mode = 2
+value = "0"
 text = "Net:"
-editable = false
 initial_value = "0"
 force_float = true
 
 [node name="Output" parent="ValuesContainer" instance=ExtResource("1_vth81")]
 unique_name_in_owner = true
 layout_mode = 2
+value = "0"
 text = "Output:"
-editable = false
 initial_value = "0"
 force_float = true
 

@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://hv6abr45mo66"]
 
-[ext_resource type="Script" path="res://scenes/input.gd" id="1_s3hrh"]
+[ext_resource type="Script" path="res://scenes/input_control.gd" id="1_j2sb5"]
 
 [node name="Input" type="HBoxContainer"]
 offset_right = 267.0
 offset_bottom = 23.0
 theme_override_constants/separation = 10
-script = ExtResource("1_s3hrh")
+script = ExtResource("1_j2sb5")
 editable = true
 
 [node name="Label" type="Label" parent="."]

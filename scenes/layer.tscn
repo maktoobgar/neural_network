@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ss8fml4si282"]
 
 [ext_resource type="Script" path="res://scenes/layer.gd" id="1_3bi70"]
-[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input.tscn" id="2_kcbq1"]
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input_control.tscn" id="2_kcbq1"]
 
 [node name="Layer" type="GraphNode"]
 custom_minimum_size = Vector2(400, 0)
 theme_override_constants/separation = 15
-title = " Layer"
+title = "First Layer"
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(0.168627, 0.6, 0, 1)
@@ -22,7 +22,12 @@ script = ExtResource("1_3bi70")
 layout_mode = 2
 
 [node name="ActivationFunction" parent="Menu" instance=ExtResource("2_kcbq1")]
+unique_name_in_owner = true
 layout_mode = 2
+value = "Sigmoid"
 text = "Activation Function:"
 options = Array[String](["None", "Sigmoid", "Tanh"])
+initial_value = "0"
 input_type = "OptionButton"
+
+[connection signal="item_selected" from="Menu/ActivationFunction" to="." method="_on_activation_function_item_selected"]

@@ -55,6 +55,11 @@ text = "Output:"
 initial_value = "0"
 force_float = true
 
+[node name="Weights" type="VBoxContainer" parent="MainContainer/ValuesContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
 [node name="Details" type="Button" parent="MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2

@@ -60,3 +60,7 @@ func _on_activation_function_item_selected(inputControl: InputControl):
 			continue
 		var neuron: Neuron = self.get_child(i)
 		neuron.activation_function = inputControl.value
+
+func feed_forward_all_nodes() -> void:
+	for neuron in all_neurons:
+		neuron.feed_forward()

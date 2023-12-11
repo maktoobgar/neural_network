@@ -72,26 +72,6 @@ initial_value = "0"
 force_int = true
 force_min = true
 
-[node name="LearningRate" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
-unique_name_in_owner = true
-layout_mode = 2
-value = "0"
-text = "Learning Rate:"
-initial_value = "0"
-force_float = true
-max_value = 1.0
-force_min = true
-force_max = true
-
-[node name="Epoch" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
-unique_name_in_owner = true
-layout_mode = 2
-value = "0"
-text = "Epoch:"
-initial_value = "0"
-force_int = true
-force_min = true
-
 [node name="ActivationFunction" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -121,39 +101,78 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ApplyChanges" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
-layout_mode = 2
-text = "Apply Changes"
-
 [node name="Label" type="Label" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
 layout_mode = 2
 text = "NC = Neurons Count"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ApplyChanges" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create Network"
+
+[node name="ConnectionsButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+disabled = true
+text = "Connections"
+
+[node name="LearningRate" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "0"
+text = "Learning Rate:"
+initial_value = "0"
+force_float = true
+max_value = 1.0
+force_min = true
+force_max = true
+
+[node name="Epoch" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "0"
+text = "Epoch:"
+initial_value = "0"
+force_int = true
+force_min = true
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
+[node name="FeedForwardBackwardButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Feed Forward"
+
 [node name="SplitInHalf" type="HBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Input" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf"]
+[node name="InputButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Input"
 
-[node name="Test" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf"]
+[node name="TestButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 disabled = true
 text = "Test"
 
-[node name="Train" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+[node name="TrainButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "Train"
 
-[node name="Reset" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
+[node name="ResetButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
 layout_mode = 2
 text = "Reset"
 
@@ -186,6 +205,10 @@ unique_name_in_owner = true
 size = Vector2i(199, 100)
 
 [connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
-[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/ApplyChanges" to="." method="_on_apply_changes_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ApplyChanges" to="." method="_on_apply_changes_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ConnectionsButton" to="." method="_on_connections_button_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/FeedForwardBackwardButton" to="." method="_on_feed_forward_backward_button_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf/TestButton" to="." method="_on_test_button_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/TrainButton" to="." method="_on_train_button_button_up"]
 [connection signal="connection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_connection_request"]
 [connection signal="disconnection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_disconnection_request"]

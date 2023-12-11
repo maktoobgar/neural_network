@@ -56,3 +56,16 @@ func get_neuron_name(num: int) -> String:
 	if num > 20:
 		return (layers.get((num/10)*10, "Invalid Number") + " " + layers.get(num%10, "Invalid Number") + " Neuron").replace("  ", " ")
 	return layers.get(num, "Invalid Number") + " Neuron"
+
+func none(input: float) -> float:
+	return input
+
+func sigmoid(input: float) -> float:
+	return 1.0/(1.0+exp(-input))
+
+func calculate_neuron_output(value: float, function_name: String) -> float:
+	if function_name == "Sigmoid":
+		return sigmoid(value)
+	elif function_name == "Tanh":
+		return tanh(value)
+	return none(value)

@@ -5,14 +5,14 @@ class_name Neuron
 
 var id: int: set = _set_id, get = _get_id
 var net: float: set = _set_net, get = _get_net
-var output: float: set = _set_output, get = _get_output
+var value: float: set = _set_value, get = _get_value
 var activation_function: String: set = _set_activation_function, get = _get_activation_function
 var layer_node: Layer = null
-var in_neurons: Array[Neuron] = []
-var inputs: Array[InputOutput] = []
+var in_neurons: Dictionary = {}
+var inputs: Dictionary = {}
 var weights: Dictionary = {}
 
-signal output_updated(value: int)
+signal value_updated(value: int)
 
 func _append_weight(id: String, value: int) -> void:
 	weights[id] = value
@@ -21,12 +21,12 @@ func _append_weight(id: String, value: int) -> void:
 	input.initial_value = "1"
 	input.set_meta("id", id)
 	input.editable = false
-	self.add_child(input)
+	%Weights.add_child(input)
 
 func _remove_weight(id: String) -> void:
 	weights.erase(id)
-	for i in range(self.get_child_count()):
-		var node = self.get_child(i)
+	for i in range(%Weights.get_child_count()):
+		var node = %Weights.get_child(i)
 		if node.get_meta("id") == id:
 			node.free()
 			break
@@ -44,11 +44,11 @@ func _set_net(value: float) -> void:
 func _get_net() -> float:
 	return float(%Net.value)
 
-func _set_output(value: float) -> void:
-	output_updated.emit(value)
+func _set_value(value: float) -> void:
+	value_updated.emit(value)
 	%Output.value = str(value)
 
-func _get_output() -> float:
+func _get_value() -> float:
 	return float(%Output.value)
 
 func _set_activation_function(value: String) -> void:
@@ -70,35 +70,47 @@ func _on_show_button_up():
 func connect_neuron(id: String, neuron: Neuron) -> bool:
 	if len(inputs) > 0:
 		return false
-	in_neurons.append(neuron)
-	_append_weight(id, 1)
+	in_neurons[id] = neuron
+	_append_weight(id, 1.0)
 	return true
 
 func connect_input(id: String, input: InputOutput) -> bool:
 	if len(in_neurons) > 0:
 		return false
-	inputs.append(input)
-	_append_weight(id, 1)
+	inputs[id] = input
+	_append_weight(id, 1.0)
 	return true
 
 func connect_output(input: InputOutput) -> bool:
-	output_updated.connect(input.update_value)
-	output_updated.emit(output)
+	value_updated.connect(input.update_value)
+	value_updated.emit(value)
 	return true
 
 func disconnect_neuron(id: String, neuron: Neuron) -> bool:
-	in_neurons.erase(neuron)
+	in_neurons.erase(id)
 	_remove_weight(id)
 	return true
 
 func disconnect_input(id: String, input: InputOutput) -> bool:
-	inputs.erase(input)
+	inputs.erase(id)
 	_remove_weight(id)
 	return true
 
 func disconnect_output(input: InputOutput) -> bool:
-	output_updated.disconnect(input.update_value)
+	value_updated.disconnect(input.update_value)
 	return true
 
 func _on_output_text_changed(inputControl: InputControl):
-	output_updated.emit(output)
+	value_updated.emit(value)
+
+func feed_forward() -> void:
+	var inputs_or_neurons: Dictionary = {}
+	if len(in_neurons) > 0:
+		inputs_or_neurons = in_neurons
+	elif len(inputs) > 0:
+		inputs_or_neurons = inputs
+	var new_value: float = 0
+	for key in inputs_or_neurons:
+		new_value += inputs_or_neurons[key].value * weights[key]
+	net = new_value
+	value = Global.calculate_neuron_output(net, activation_function)

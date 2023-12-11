@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: connections for neurons added + feed forward mechanism added
 - 🎉 feat: added nn generation
 - 🎉 feat: input and output layers added
 - 🎉 feat: added details button on each neuron + bug fix

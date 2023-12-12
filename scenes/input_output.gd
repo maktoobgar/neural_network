@@ -12,6 +12,8 @@ func _ready() -> void:
 	var layer_type = self.get_meta("layer_type", Global.LayerType.NeuronsInput)
 	if layer_type == Global.LayerType.NeuronsOutput:
 		%DesiredOutput.visible = true
+		%ActivationFunction.visible = true
+		%Value.editable = false
 
 func _set_id(value: int) -> void:
 	self.title = Global.get_input_output_name(value + 1)
@@ -20,15 +22,25 @@ func _set_id(value: int) -> void:
 func _get_id() -> int:
 	return id
 
+func _set_color(active: bool) -> void:
+	var theme_color = Color("#00c700") if active else Color("#ff2c26")
+	self.add_theme_color_override("title_color", theme_color)
+
+func _reset_color() -> void:
+	self.remove_theme_color_override("title_color")
+
 func _set_value(value: float) -> void:
 	if !self.is_node_ready():
 		await self.ready
 	if activation_function == "Same":
 		%Value.value = str(value)
+		_reset_color()
 	elif activation_function == "Out>0":
 		%Value.value = str(1.0 if value > 0.0 else 0.0)
+		_set_color(value > 0.0)
 	elif activation_function == "Out>0.5":
 		%Value.value = str(1.0 if value > 0.5 else 0.0)
+		_set_color(value > 0.5)
 
 func _get_value() -> float:
 	return float(%Value.value)

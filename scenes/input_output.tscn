@@ -22,6 +22,8 @@ size_flags_vertical = 3
 theme_override_constants/separation = 10
 
 [node name="ActivationFunction" parent="ValuesContainer" instance=ExtResource("2_8ib15")]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 value = "Same"
 text = "Consider As:"

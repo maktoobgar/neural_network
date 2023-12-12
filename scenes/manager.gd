@@ -11,12 +11,20 @@ var activation_function: String = ""
 var nc_of_each_layer: Array[int] = []
 var layers: Dictionary = {}
 
+var inputs: Array[Array] = []
+var outputs: Array[Array] = []
+
 func _ready():
 	%Neurons.set_right_disconnects(true)
 
 func _show_error() -> void:
 	%Popup.title = "Validation Error"
 	%Popup.dialog_text = "Not all input fields are valid"
+	%Popup.popup_centered()
+
+func _show_file_error() -> void:
+	%Popup.title = "Validation Error"
+	%Popup.dialog_text = "Not all input fields in file are valid"
 	%Popup.popup_centered()
 
 func get_network_inputs() -> void:
@@ -46,7 +54,7 @@ func are_network_inputs_valid() -> bool:
 	return false
 
 func are_learning_inputs_valid() -> bool:
-	if learning_rate > 0 && learning_rate <= 1 && epoch >= 1:
+	if learning_rate >= 0 && learning_rate <= 1 && epoch >= 1:
 		return true
 	_show_error()
 	return false
@@ -168,6 +176,16 @@ func _on_train_button_button_up():
 	get_learning_inputs()
 	if not are_learning_inputs_valid():
 		return
+	for epoch_id in epoch:
+		for row_key in range(len(inputs)):
+			var one_row_inputs = inputs[row_key]
+			var one_row_outputs = outputs[row_key]
+			for i in range(len(one_row_inputs)):
+				if i < inputs_count:
+					layers["in"].inputs_outputs[i].value = str(one_row_inputs[i])
+				else:
+					layers["out"].inputs_outputs[i - inputs_count].desired_output = str(one_row_inputs[i])
+		_run_learning_process()
 
 func _on_test_button_button_up():
 	get_learning_inputs()
@@ -199,19 +217,14 @@ func _on_connections_button_button_up():
 		prev = key
 	%ConnectionsButton.disabled = true
 
-func _on_feed_forward_backward_button_button_up():
-	get_learning_inputs()
-	if not are_learning_inputs_valid():
-		return
-	var feed_forward = %FeedForwardBackwardButton.get_meta("forward", false) as bool
-	if feed_forward:
-		for key in layers:
-			if key == "in" or key == "out":
-				continue
-			layers[key].feed_forward_all_nodes()
-		%FeedForwardBackwardButton.set_meta("forward", false)
-		%FeedForwardBackwardButton.text = "Feed Backward"
-		return
+func _run_learning_process() -> void:
+	# Feed Forward
+	for key in layers:
+		if key == "in" or key == "out":
+			continue
+		layers[key].feed_forward_all_nodes()
+
+	# Feed Backward
 	var keys = layers.keys()
 	keys.reverse()
 	for key in keys:
@@ -220,5 +233,41 @@ func _on_feed_forward_backward_button_button_up():
 	for key in layers:
 		if key != "in" and key != "out":
 			layers[key].feed_backward_all_nodes()
-	%FeedForwardBackwardButton.set_meta("forward", true)
-	%FeedForwardBackwardButton.text = "Feed Froward"
+
+func _on_feed_forward_backward_button_button_up():
+	get_learning_inputs()
+	if not are_learning_inputs_valid():
+		return
+
+	for i in epoch:
+		_run_learning_process()
+
+func _on_file_dialog_file_selected(path: String):
+	if not are_network_inputs_valid():
+		return
+	inputs = []
+	outputs = []
+	var file = FileAccess.open(path, FileAccess.READ)
+	var content = file.get_as_text()
+	var splits = content.split("\n", false)
+	for line in splits:
+		var line_splits = line.strip_escapes().split(",", false)
+		if len(line_splits) == inputs_count + nc_of_each_layer[len(nc_of_each_layer) - 1]:
+			var inputs_temp = []
+			var outputs_temp = []
+			for i in len(line_splits):
+				var data = line_splits[i].strip_escapes()
+				if i < inputs_count:
+					inputs_temp.append(float(data))
+				else:
+					outputs_temp.append(float(data))
+			inputs.append(inputs_temp)
+			outputs.append(outputs_temp)
+	if len(inputs) == 0 or len(outputs) == 0:
+		_show_file_error()
+		return
+	%TrainButton.disabled = false
+	%TestButton.disabled = false
+
+func _on_input_button_button_up():
+	%FileDialog.popup_centered()

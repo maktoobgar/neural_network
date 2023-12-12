@@ -145,7 +145,7 @@ force_min = true
 [node name="FeedForwardBackwardButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Feed Forward"
+text = "Feed Forward & Backward"
 metadata/forward = true
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer"]
@@ -206,11 +206,21 @@ text = "Log Comes Here"
 unique_name_in_owner = true
 size = Vector2i(199, 100)
 
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a CSV File"
+size = Vector2i(400, 500)
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray("*.csv")
+
 [connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ApplyChanges" to="." method="_on_apply_changes_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ConnectionsButton" to="." method="_on_connections_button_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/FeedForwardBackwardButton" to="." method="_on_feed_forward_backward_button_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf/InputButton" to="." method="_on_input_button_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf/TestButton" to="." method="_on_test_button_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/TrainButton" to="." method="_on_train_button_button_up"]
 [connection signal="connection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_connection_request"]
 [connection signal="disconnection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_disconnection_request"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

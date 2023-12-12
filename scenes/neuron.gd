@@ -7,6 +7,7 @@ var id: int: set = _set_id, get = _get_id
 var net: float: set = _set_net, get = _get_net
 var value: float: set = _set_value, get = _get_value
 var delta: float: set = _set_delta, get = _get_delta
+var b: float: set = _set_b, get = _get_b
 var activation_function: String: set = _set_activation_function, get = _get_activation_function
 var layer_node: Layer = null
 var in_neurons: Dictionary = {}
@@ -33,9 +34,6 @@ func _remove_weight(id: String) -> void:
 	weights_nodes[id].free()
 
 func update_weight_on_input(id: String, value: float) -> void:
-	print(value)
-	print(str(value))
-	print("---------")
 	weights_nodes[id].value = str(value)
 
 func _set_id(value: int) -> void:
@@ -63,6 +61,12 @@ func _set_delta(value: float) -> void:
 
 func _get_delta() -> float:
 	return float(%Delta.value)
+
+func _set_b(value: float) -> void:
+	%B.value = str(value)
+
+func _get_b() -> float:
+	return float(%B.value)
 
 func _set_activation_function(value: String) -> void:
 	%ActivationFunction.value = value
@@ -131,7 +135,7 @@ func feed_forward() -> void:
 	var new_value: float = 0
 	for key in inputs_or_neurons:
 		new_value += inputs_or_neurons[key].value * weights[key]
-	net = new_value
+	net = new_value + b
 	value = Global.calculate_neuron_output(net, activation_function)
 
 func calculate_delta() -> void:
@@ -145,8 +149,11 @@ func calculate_delta() -> void:
 	delta = y_derivative * sigma
 
 func feed_backward() -> void:
-	if id == 0:
+	b = b + layer_node.manager.learning_rate * delta * 1
+	if layer_node.layer_id == 0:
 		for key in weights:
+			print(inputs)
+			print(weights)
 			var delta_w = layer_node.manager.learning_rate * delta * inputs[key].value
 			var new_weight = weights[key] + delta_w
 			weights[key] = new_weight
@@ -160,4 +167,4 @@ func feed_backward() -> void:
 		var delta_w = layer_node.manager.learning_rate * out_neurons[key].delta * value
 		var new_weight = out_neurons[key].weights[key] + delta_w
 		out_neurons[key].weights[key] = new_weight
-		out_neurons[key].update_weight_on_input(id, new_weight)
+		out_neurons[key].update_weight_on_input(key, new_weight)

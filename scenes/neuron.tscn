@@ -65,6 +65,15 @@ editable = false
 initial_value = "0"
 force_float = true
 
+[node name="B" parent="MainContainer/ValuesContainer" instance=ExtResource("1_vth81")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "0"
+text = "B:"
+editable = false
+initial_value = "0"
+force_float = true
+
 [node name="Weights" type="VBoxContainer" parent="MainContainer/ValuesContainer"]
 unique_name_in_owner = true
 layout_mode = 2

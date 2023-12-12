@@ -1,5 +1,7 @@
 extends Node
 
+class_name Manager
+
 var inputs_count: int = 0
 var learning_rate: float = 0
 var layers_count: int = 0
@@ -93,6 +95,8 @@ func _on_apply_changes_button_up():
 		layer.neurons_count = nc_of_each_layer[i]
 		layer.position_offset.x = (i + 1) * 600
 		layer.activation_function = activation_function
+		layer.final_layer = i + 1 == layers_count
+		layer.manager = self
 		layers[str(i + 1)] = layer
 		%Neurons.add_child(layer)
 
@@ -137,7 +141,9 @@ func _on_neurons_connection_request(from_node, from_port, to_node, to_port):
 		connect = layers[from_node].all_neurons[from_port].connect_output(layers[to_node].inputs_outputs[to_port])
 	# From Layer to Layer
 	elif is_instance_of(layers[from_node], Layer):
-		connect = layers[to_node].all_neurons[to_port].connect_neuron("W " + str(layers[from_node].layer_id) + "-" + str(from_port + 1), layers[from_node].all_neurons[from_port])
+		var _id = "W " + str(layers[from_node].layer_id) + "-" + str(from_port + 1)
+		connect = layers[from_node].all_neurons[from_port].connect_out_neuron(_id, layers[to_node].all_neurons[to_port])
+		connect = connect && layers[to_node].all_neurons[to_port].connect_in_neuron(_id, layers[from_node].all_neurons[from_port])
 	# From InputLayer to Layer
 	elif is_instance_of(layers[from_node], InputOutputLayer):
 		connect = layers[to_node].all_neurons[to_port].connect_input("W in-" + str(from_port + 1), layers[from_node].inputs_outputs[from_port])
@@ -151,7 +157,7 @@ func _on_neurons_disconnection_request(from_node, from_port, to_node, to_port):
 		disconnect = layers[from_node].all_neurons[from_port].disconnect_output(layers[to_node].inputs_outputs[to_port])
 	# From Layer to Layer
 	elif is_instance_of(layers[from_node], Layer):
-		disconnect = layers[to_node].all_neurons[to_port].disconnect_neuron("W " + str(layers[from_node].layer_id) + "-" + str(from_port + 1), layers[from_node].all_neurons[from_port])
+		disconnect = layers[to_node].all_neurons[to_port].disconnect_in_neuron("W " + str(layers[from_node].layer_id) + "-" + str(from_port + 1), layers[from_node].all_neurons[from_port])
 	# From InputLayer to Layer
 	elif is_instance_of(layers[from_node], InputOutputLayer):
 		disconnect = layers[to_node].all_neurons[to_port].disconnect_input("W in-" + str(from_port + 1), layers[from_node].inputs_outputs[from_port])
@@ -186,13 +192,33 @@ func _on_connections_button_button_up():
 		else:
 			for i in range(len(layers[prev].all_neurons)):
 				for j in range(len(layers[key].all_neurons)):
-					layers[key].all_neurons[j].connect_neuron("W " + str(layers[prev].layer_id) + "-" + str(i + 1), layers[prev].all_neurons[i])
+					var _id = "W " + str(layers[prev].layer_id) + "-" + str(i + 1)
+					layers[key].all_neurons[j].connect_in_neuron(_id, layers[prev].all_neurons[i])
+					layers[prev].all_neurons[i].connect_out_neuron(_id, layers[key].all_neurons[j])
 					%Neurons.connect_node(prev, i, key, j)
 		prev = key
 	%ConnectionsButton.disabled = true
 
 func _on_feed_forward_backward_button_button_up():
+	get_learning_inputs()
+	if not are_learning_inputs_valid():
+		return
+	var feed_forward = %FeedForwardBackwardButton.get_meta("forward", false) as bool
+	if feed_forward:
+		for key in layers:
+			if key == "in" or key == "out":
+				continue
+			layers[key].feed_forward_all_nodes()
+		%FeedForwardBackwardButton.set_meta("forward", false)
+		%FeedForwardBackwardButton.text = "Feed Backward"
+		return
+	var keys = layers.keys()
+	keys.reverse()
+	for key in keys:
+		if key != "in" and key != "out":
+			layers[key].calculate_delta_all_nodes()
 	for key in layers:
-		if key == "in" or key == "out":
-			continue
-		layers[key].feed_forward_all_nodes()
+		if key != "in" and key != "out":
+			layers[key].feed_backward_all_nodes()
+	%FeedForwardBackwardButton.set_meta("forward", true)
+	%FeedForwardBackwardButton.text = "Feed Froward"

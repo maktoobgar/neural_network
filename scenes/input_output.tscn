@@ -21,9 +21,27 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
+[node name="ActivationFunction" parent="ValuesContainer" instance=ExtResource("2_8ib15")]
+layout_mode = 2
+value = "Same"
+text = "Consider As:"
+options = Array[String](["Same", "Out>0", "Out>0.5"])
+initial_value = "0"
+input_type = "OptionButton"
+
 [node name="Value" parent="ValuesContainer" instance=ExtResource("2_8ib15")]
 unique_name_in_owner = true
 layout_mode = 2
 value = "0"
 text = "Value:"
+initial_value = "0"
+force_float = true
+
+[node name="DesiredOutput" parent="ValuesContainer" instance=ExtResource("2_8ib15")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+value = "0"
+text = "Desired Output:"
+initial_value = "0"
 force_float = true

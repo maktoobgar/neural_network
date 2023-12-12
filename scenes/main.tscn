@@ -142,13 +142,15 @@ initial_value = "0"
 force_int = true
 force_min = true
 
+[node name="FeedForwardBackwardButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Feed Forward"
+metadata/forward = true
+
 [node name="ButtonsContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
-
-[node name="FeedForwardBackwardButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
-layout_mode = 2
-text = "Feed Forward"
 
 [node name="SplitInHalf" type="HBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer"]
 layout_mode = 2
@@ -207,7 +209,7 @@ size = Vector2i(199, 100)
 [connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ApplyChanges" to="." method="_on_apply_changes_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ConnectionsButton" to="." method="_on_connections_button_button_up"]
-[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/FeedForwardBackwardButton" to="." method="_on_feed_forward_backward_button_button_up"]
+[connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/FeedForwardBackwardButton" to="." method="_on_feed_forward_backward_button_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/SplitInHalf/TestButton" to="." method="_on_test_button_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ButtonsContainer/TrainButton" to="." method="_on_train_button_button_up"]
 [connection signal="connection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_connection_request"]

@@ -8,6 +8,8 @@ class_name Layer
 
 var activation_function: String: set = _set_activation_function, get = _get_activation_function
 var all_neurons: Array[Neuron] = []
+var final_layer: bool = false
+var manager: Manager = null
 
 func _set_activation_function(value: String) -> void:
 	%ActivationFunction.value = value
@@ -64,3 +66,11 @@ func _on_activation_function_item_selected(inputControl: InputControl):
 func feed_forward_all_nodes() -> void:
 	for neuron in all_neurons:
 		neuron.feed_forward()
+
+func calculate_delta_all_nodes() -> void:
+	for neuron in all_neurons:
+		neuron.calculate_delta()
+
+func feed_backward_all_nodes() -> void:
+	for neuron in all_neurons:
+		neuron.feed_backward()

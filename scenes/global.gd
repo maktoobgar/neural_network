@@ -63,9 +63,24 @@ func none(input: float) -> float:
 func sigmoid(input: float) -> float:
 	return 1.0/(1.0+exp(-input))
 
+func sigmoid_derivative(input: float) -> float:
+	var y = sigmoid(input)
+	return (1 - y) * y
+
+func tanh_derivative(input: float) -> float:
+	var y = tanh(input)
+	return 1 - (y * y)
+
 func calculate_neuron_output(value: float, function_name: String) -> float:
 	if function_name == "Sigmoid":
 		return sigmoid(value)
 	elif function_name == "Tanh":
 		return tanh(value)
+	return none(value)
+
+func calculate_derivative_neuron_output(value: float, function_name: String) -> float:
+	if function_name == "Sigmoid":
+		return sigmoid_derivative(value)
+	elif function_name == "Tanh":
+		return tanh_derivative(value)
 	return none(value)

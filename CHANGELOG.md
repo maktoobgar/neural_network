@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: working feed forward and backward with updating weights
 - 🎉 feat: connections for neurons added + feed forward mechanism added
 - 🎉 feat: added nn generation
 - 🎉 feat: input and output layers added

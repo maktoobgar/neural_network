@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: created test and train datasets
 - 🎉 feat: tested the network and added input file and train functionality
 - 🎉 feat: working feed forward and backward with updating weights
 - 🎉 feat: connections for neurons added + feed forward mechanism added

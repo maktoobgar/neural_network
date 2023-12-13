@@ -204,8 +204,7 @@ func _on_test_button_button_up():
 			passed += 1
 		else:
 			failed += 1
-	print("passed = ", passed)
-	print("failed = ", failed)
+	%Log.text = "🟢 = " + str(passed) + "\n🔴 = " + str(failed)
 
 func _on_connections_button_button_up():
 	var prev = ""

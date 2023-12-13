@@ -198,9 +198,11 @@ size_flags_vertical = 3
 [node name="Temporary" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Temporary"]
+[node name="Log" type="TextEdit" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Temporary"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
-text = "Log Comes Here"
+text = "Log Comes Here . . ."
 
 [node name="Popup" type="AcceptDialog" parent="."]
 unique_name_in_owner = true

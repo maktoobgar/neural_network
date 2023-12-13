@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: added to log
 - 🎉 feat: first ever working neural network
 - 🎉 feat: created test and train datasets
 - 🎉 feat: tested the network and added input file and train functionality

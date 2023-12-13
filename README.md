@@ -1,3 +1,7 @@
 # Neural Network
 
-A neural network project implemented in godot game engine.
+A neural network building project implemented in godot game engine which can be used to visually train a neural network.
+
+## Demo
+
+![](./demo.png)

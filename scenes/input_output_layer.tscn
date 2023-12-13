@@ -19,8 +19,12 @@ slot/0/draw_stylebox = true
 script = ExtResource("1_tqx1j")
 layer_type = 1
 
-[node name="ActivationFunction" parent="." instance=ExtResource("2_t3kld")]
+[node name="Menu" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ActivationFunction" parent="Menu" instance=ExtResource("2_t3kld")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 value = "Same"
 text = "Consider As:"
@@ -29,4 +33,4 @@ initial_value = "0"
 input_type = "OptionButton"
 metadata/layer_type = 1
 
-[connection signal="item_selected" from="ActivationFunction" to="." method="_on_activation_function_item_selected"]
+[connection signal="item_selected" from="Menu/ActivationFunction" to="." method="_on_activation_function_item_selected"]

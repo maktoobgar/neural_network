@@ -194,13 +194,14 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+scroll_offset = Vector2(0, -30)
 
 [node name="Temporary" type="MarginContainer" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer"]
 layout_mode = 2
 
 [node name="Log" type="TextEdit" parent="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Temporary"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 70)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 text = "Log Comes Here . . ."
 

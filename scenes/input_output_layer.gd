@@ -25,6 +25,10 @@ func _set_layer_type(value: Global.LayerType) -> void:
 		elif value == Global.LayerType.NeuronsOutput:
 			self.set_slot(i, true, 0, Color("#2b9900"), false, 0, Color("#00a7ec"))
 	self.title = Global.get_input_output_layer_name(value)
+	if value == Global.LayerType.NeuronsOutput:
+		%ActivationFunction.visible = true
+	else:
+		%ActivationFunction.visible = false
 	layer_type = value
 
 func _get_inputs_outputs_count() -> int:
@@ -55,9 +59,6 @@ func _set_inputs_outputs_count(value: int) -> void:
 
 func _get_activation_function() -> String:
 	return %ActivationFunction.value
-
-func _ready():
-	self.title = Global.get_input_output_layer_name(layer_type)
 
 func _on_activation_function_item_selected(inputControl: InputControl):
 	for input_output in inputs_outputs:

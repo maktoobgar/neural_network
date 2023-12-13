@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: added consider as field in the end
 - 🎉 feat: added to log
 - 🎉 feat: first ever working neural network
 - 🎉 feat: created test and train datasets

@@ -191,8 +191,8 @@ func _on_test_button_button_up():
 	get_learning_inputs()
 	if not are_learning_inputs_valid():
 		return
-	var passed = 0
-	var failed = 0
+	var passed: float = 0
+	var failed: float = 0
 	for row_key in range(len(inputs)):
 		var one_row_inputs = inputs[row_key]
 		var one_row_outputs = outputs[row_key]
@@ -204,7 +204,7 @@ func _on_test_button_button_up():
 			passed += 1
 		else:
 			failed += 1
-	%Log.text = "🟢 = " + str(passed) + "\n🔴 = " + str(failed)
+	%Log.text = "🟢 = " + str(passed) + "\n🔴 = " + str(failed) + "\nAccuracy = " + str((passed/(passed + failed)) * 100)
 
 func _on_connections_button_button_up():
 	var prev = ""

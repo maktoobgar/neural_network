@@ -7,6 +7,7 @@ var learning_rate: float = 0
 var layers_count: int = 0
 var epoch: int = 0
 var activation_function: String = ""
+var max_number: float = 0
 
 var nc_of_each_layer: Array[int] = []
 var layers: Dictionary = {}
@@ -181,16 +182,30 @@ func _on_train_button_button_up():
 			var one_row_inputs = inputs[row_key]
 			var one_row_outputs = outputs[row_key]
 			for i in range(len(one_row_inputs)):
-				if i < inputs_count:
-					layers["in"].inputs_outputs[i].value = str(one_row_inputs[i])
-				else:
-					layers["out"].inputs_outputs[i - inputs_count].desired_output = str(one_row_inputs[i])
-		_run_learning_process()
+				layers["in"].inputs_outputs[i].value = str(one_row_inputs[i] / max_number)
+			for i in range(len(one_row_outputs)):
+				layers["out"].inputs_outputs[i].desired_output = str(one_row_outputs[i])
+			_run_learning_process()
 
 func _on_test_button_button_up():
 	get_learning_inputs()
 	if not are_learning_inputs_valid():
 		return
+	var passed = 0
+	var failed = 0
+	for row_key in range(len(inputs)):
+		var one_row_inputs = inputs[row_key]
+		var one_row_outputs = outputs[row_key]
+		for i in range(len(one_row_inputs)):
+			layers["in"].inputs_outputs[i].value = str(one_row_inputs[i] / max_number)
+		for i in range(len(one_row_outputs)):
+			layers["out"].inputs_outputs[i].desired_output = str(one_row_outputs[i])
+		if _just_feed_forward_all_nodes_and_check(one_row_outputs):
+			passed += 1
+		else:
+			failed += 1
+	print("passed = ", passed)
+	print("failed = ", failed)
 
 func _on_connections_button_button_up():
 	var prev = ""
@@ -216,6 +231,21 @@ func _on_connections_button_button_up():
 					%Neurons.connect_node(prev, i, key, j)
 		prev = key
 	%ConnectionsButton.disabled = true
+
+func _just_feed_forward_all_nodes_and_check(one_row_outputs: Array) -> bool:
+	# Feed Forward
+	for key in layers:
+		if key == "in" or key == "out":
+			continue
+		layers[key].feed_forward_all_nodes()
+
+	# Check
+	var passed = true
+	for i in range(len(one_row_outputs)):
+		if layers["out"].inputs_outputs[i].value != one_row_outputs[i]:
+			passed = false
+			break
+	return passed
 
 func _run_learning_process() -> void:
 	# Feed Forward
@@ -258,7 +288,10 @@ func _on_file_dialog_file_selected(path: String):
 			for i in len(line_splits):
 				var data = line_splits[i].strip_escapes()
 				if i < inputs_count:
-					inputs_temp.append(float(data))
+					data = float(data)
+					inputs_temp.append(data)
+					if data > max_number:
+						max_number = data
 				else:
 					outputs_temp.append(float(data))
 			inputs.append(inputs_temp)

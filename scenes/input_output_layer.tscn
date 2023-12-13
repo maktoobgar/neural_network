@@ -1,10 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://ci7psxy71v02s"]
+[gd_scene load_steps=3 format=3 uid="uid://ci7psxy71v02s"]
 
 [ext_resource type="Script" path="res://scenes/input_output_layer.gd" id="1_tqx1j"]
+[ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input_control.tscn" id="2_t3kld"]
 
 [node name="InputOutputLayer" type="GraphNode"]
 custom_minimum_size = Vector2(450, 0)
 theme_override_constants/separation = 15
 title = "Output Layer"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(0.168627, 0.6, 0, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(0, 0.654902, 0.92549, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
 script = ExtResource("1_tqx1j")
 layer_type = 1
+
+[node name="ActivationFunction" parent="." instance=ExtResource("2_t3kld")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "Same"
+text = "Consider As:"
+options = Array[String](["Same", "Out>0", "Out>0.5"])
+initial_value = "0"
+input_type = "OptionButton"
+metadata/layer_type = 1
+
+[connection signal="item_selected" from="ActivationFunction" to="." method="_on_activation_function_item_selected"]

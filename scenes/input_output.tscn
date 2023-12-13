@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://hv6abr45mo66" path="res://scenes/input_control.tscn" id="2_8ib15"]
 
 [node name="InputOutput" type="GraphNode"]
+title = "Neuron"
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)

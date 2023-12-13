@@ -7,6 +7,8 @@
 custom_minimum_size = Vector2(400, 0)
 offset_right = 400.0
 offset_bottom = 85.0
+theme_override_colors/title_color = Color(0.407843, 0.694118, 1, 1)
+theme_override_colors/close_color = Color(0.407843, 0.694118, 1, 1)
 theme_override_constants/separation = 15
 title = "Neuron"
 show_close = true
@@ -36,7 +38,7 @@ unique_name_in_owner = true
 layout_mode = 2
 value = "Tanh"
 text = "Activation Function:"
-options = Array[String](["None", "Sigmoid", "Tanh"])
+options = Array[String](["None", "Sigmoid", "Tanh", "Linear"])
 input_type = "OptionButton"
 
 [node name="Net" parent="MainContainer/ValuesContainer" instance=ExtResource("1_vth81")]

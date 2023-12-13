@@ -28,7 +28,7 @@ unique_name_in_owner = true
 layout_mode = 2
 value = "Sigmoid"
 text = "Activation Function:"
-options = Array[String](["None", "Sigmoid", "Tanh"])
+options = Array[String](["None", "Sigmoid", "Tanh", "Linear"])
 initial_value = "0"
 input_type = "OptionButton"
 

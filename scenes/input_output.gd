@@ -6,7 +6,7 @@ class_name InputOutput
 var id: int: set = _set_id, get = _get_id
 var value: float: set = _set_value, get = _get_value
 var desired_output: float: set = _set_desired_output, get = _get_desired_output
-var activation_function: String: get = _get_activation_function
+var activation_function: String: set = _set_activation_function, get = _get_activation_function
 
 func _ready() -> void:
 	var layer_type = self.get_meta("layer_type", Global.LayerType.NeuronsInput)
@@ -23,7 +23,7 @@ func _get_id() -> int:
 	return id
 
 func _set_color(active: bool) -> void:
-	var theme_color = Color("#00c700") if active else Color("#ff2c26")
+	var theme_color = Color("#89ff81") if active else Color("#ff7664")
 	self.add_theme_color_override("title_color", theme_color)
 
 func _reset_color() -> void:
@@ -50,6 +50,9 @@ func _set_desired_output(value: float) -> void:
 
 func _get_desired_output() -> float:
 	return float(%DesiredOutput.value)
+
+func _set_activation_function(value: String) -> void:
+	%ActivationFunction.value = value
 
 func _get_activation_function() -> String:
 	return %ActivationFunction.value

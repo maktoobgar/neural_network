@@ -17,13 +17,13 @@ var output: InputOutput = null
 var weights: Dictionary = {}
 var weights_nodes: Dictionary = {}
 
-signal value_updated(value: int)
+signal value_updated(value: float)
 
-func _append_weight(id: String, value: int) -> void:
+func _append_weight(id: String, value: float) -> void:
 	weights[id] = value
 	var input: InputControl = SceneManager.create_scene_instance("input_control")
 	input.text = id + " => " + str(layer_node.layer_id) + "-" + str(self.id + 1) + ":"
-	input.initial_value = "1"
+	input.initial_value = "0.01"
 	input.set_meta("id", id)
 	input.editable = false
 	weights_nodes[id] = input
@@ -88,18 +88,18 @@ func connect_in_neuron(id: String, neuron: Neuron) -> bool:
 	if len(inputs) > 0:
 		return false
 	in_neurons[id] = neuron
-	_append_weight(id, 1.0)
+	_append_weight(id, 0.01)
 	return true
 
 func connect_out_neuron(id: String, neuron: Neuron) -> bool:
-	out_neurons[id] = neuron
+	out_neurons[id+"|"+str(neuron.id)] = neuron
 	return true
 
 func connect_input(id: String, inputOutput: InputOutput) -> bool:
 	if len(in_neurons) > 0:
 		return false
 	inputs[id] = inputOutput
-	_append_weight(id, 1.0)
+	_append_weight(id, 0.01)
 	return true
 
 func connect_output(inputOutput: InputOutput) -> bool:
@@ -141,30 +141,29 @@ func feed_forward() -> void:
 func calculate_delta() -> void:
 	var y_derivative = Global.calculate_derivative_neuron_output(net, activation_function)
 	if layer_node.final_layer:
-		delta = y_derivative * (output.desired_output - value)
+		if output:
+			delta = y_derivative * (output.desired_output - value)
 		return
 	var sigma = 0
 	for key in out_neurons:
-		sigma += out_neurons[key].weights[key] * out_neurons[key].delta
+		var weight_key = key.split("|")[0]
+		sigma += out_neurons[key].weights[weight_key] * out_neurons[key].delta
 	delta = y_derivative * sigma
 
 func feed_backward() -> void:
 	b = b + layer_node.manager.learning_rate * delta * 1
-	if layer_node.layer_id == 0:
+	if layer_node.layer_id == 1:
 		for key in weights:
-			print(inputs)
-			print(weights)
 			var delta_w = layer_node.manager.learning_rate * delta * inputs[key].value
 			var new_weight = weights[key] + delta_w
 			weights[key] = new_weight
 			update_weight_on_input(key, new_weight)
-		if output != null:
-			return
-	elif output != null:
+	if output != null:
 		return
 
 	for key in out_neurons:
+		var weight_key = key.split("|")[0]
 		var delta_w = layer_node.manager.learning_rate * out_neurons[key].delta * value
-		var new_weight = out_neurons[key].weights[key] + delta_w
-		out_neurons[key].weights[key] = new_weight
-		out_neurons[key].update_weight_on_input(key, new_weight)
+		var new_weight = out_neurons[key].weights[weight_key] + delta_w
+		out_neurons[key].weights[weight_key] = new_weight
+		out_neurons[key].update_weight_on_input(weight_key, new_weight)

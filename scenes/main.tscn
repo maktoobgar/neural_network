@@ -77,7 +77,7 @@ unique_name_in_owner = true
 layout_mode = 2
 value = "None"
 text = "Activation Function:"
-options = Array[String](["None", "Sigmoid", "Tanh", "Linear"])
+options = Array[String](["None", "Sigmoid", "Tanh", "Linear", "Gaussian"])
 initial_value = "0"
 input_type = "OptionButton"
 
@@ -142,11 +142,25 @@ initial_value = "0"
 force_int = true
 force_min = true
 
+[node name="Classification" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "0"
+text = "Classification:"
+input_type = "CheckBox"
+
 [node name="FeedForwardBackwardButton" type="Button" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Feed Forward & Backward"
 metadata/forward = true
+
+[node name="Variance" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls" instance=ExtResource("1_tlwrc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Variance:"
+editable = false
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer"]
 layout_mode = 2
@@ -216,6 +230,15 @@ ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.csv")
 
+[node name="FileDialogTest" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+size = Vector2i(400, 500)
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray("*.csv")
+
+[connection signal="item_selected" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/ActivationFunction" to="." method="_on_activation_function_item_selected"]
 [connection signal="text_changed" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/LayersCount" to="." method="_on_layers_count_text_changed"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ApplyChanges" to="." method="_on_apply_changes_button_up"]
 [connection signal="button_up" from="Panel/CornerMargins/MainSpliterContainer/Sidebar/SidebarContentContainer/ScrollContainer/Margin/Controls/HBoxContainer/ConnectionsButton" to="." method="_on_connections_button_button_up"]
@@ -226,3 +249,4 @@ filters = PackedStringArray("*.csv")
 [connection signal="connection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_connection_request"]
 [connection signal="disconnection_request" from="Panel/CornerMargins/MainSpliterContainer/Content/ContentContainer/Neurons" to="." method="_on_neurons_disconnection_request"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="file_selected" from="FileDialogTest" to="." method="_on_file_dialog_test_file_selected"]

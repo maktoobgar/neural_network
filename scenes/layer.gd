@@ -57,10 +57,7 @@ func _ready():
 	self.title = Global.get_layer_name(layer_id)
 
 func _on_activation_function_item_selected(inputControl: InputControl):
-	for i in range(self.get_child_count()):
-		if i == 0:
-			continue
-		var neuron: Neuron = self.get_child(i)
+	for neuron in all_neurons:
 		neuron.activation_function = inputControl.value
 
 func feed_forward_all_nodes() -> void:
@@ -74,3 +71,11 @@ func calculate_delta_all_nodes() -> void:
 func feed_backward_all_nodes() -> void:
 	for neuron in all_neurons:
 		neuron.feed_backward()
+
+func add_center_points(points: Array) -> void:
+	for i in range(len(all_neurons)):
+		all_neurons[i].center = points[i]
+
+func _on_bias_checkbox_value_changed(inputControl: InputControl):
+	for neuron in all_neurons:
+		neuron.active_bias = inputControl.value == "1"

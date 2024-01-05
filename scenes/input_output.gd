@@ -7,6 +7,7 @@ var id: int: set = _set_id, get = _get_id
 var value: float: set = _set_value, get = _get_value
 var desired_output: float: set = _set_desired_output, get = _get_desired_output
 var activation_function: String: set = _set_activation_function, get = _get_activation_function
+var valid: bool: set = _set_valid
 
 func _ready() -> void:
 	var layer_type = self.get_meta("layer_type", Global.LayerType.NeuronsInput)
@@ -14,6 +15,10 @@ func _ready() -> void:
 		%DesiredOutput.visible = true
 		%ActivationFunction.visible = true
 		%Value.editable = false
+
+func _set_valid(value: bool) -> void:
+	_set_color(value)
+	valid = value
 
 func _set_id(value: int) -> void:
 	self.title = Global.get_input_output_name(value + 1)
@@ -33,14 +38,23 @@ func _set_value(value: float) -> void:
 	if !self.is_node_ready():
 		await self.ready
 	if activation_function == "Same":
-		%Value.value = str(value)
 		_reset_color()
+		%Value.value = str(value)
 	elif activation_function == "Out>0":
+		valid = value == desired_output
 		%Value.value = str(1.0 if value > 0.0 else 0.0)
-		_set_color(value > 0.0)
 	elif activation_function == "Out>0.5":
+		valid = value == desired_output
 		%Value.value = str(1.0 if value > 0.5 else 0.0)
-		_set_color(value > 0.5)
+	elif activation_function == "5 Unit Difference":
+		valid = abs(value - desired_output) <= 5
+		%Value.value = str(value)
+	elif activation_function == "10 Unit Difference":
+		valid = abs(value - desired_output) <= 10
+		%Value.value = str(value)
+	elif activation_function == "20 Unit Difference":
+		valid = abs(value - desired_output) <= 20
+		%Value.value = str(value)
 
 func _get_value() -> float:
 	return float(%Value.value)

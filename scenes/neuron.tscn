@@ -38,7 +38,7 @@ unique_name_in_owner = true
 layout_mode = 2
 value = "Tanh"
 text = "Activation Function:"
-options = Array[String](["None", "Sigmoid", "Tanh", "Linear"])
+options = Array[String](["None", "Sigmoid", "Tanh", "Linear", "Gaussian"])
 input_type = "OptionButton"
 
 [node name="Net" parent="MainContainer/ValuesContainer" instance=ExtResource("1_vth81")]

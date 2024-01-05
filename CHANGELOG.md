@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- 🎉 feat: gaussian added
 - 🎉 feat: added consider as field in the end
 - 🎉 feat: added to log
 - 🎉 feat: first ever working neural network

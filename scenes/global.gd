@@ -1,6 +1,8 @@
 @tool
 extends Node
 
+var learning_point: Array = []
+
 enum LayerType {NeuronsInput, NeuronsOutput, Neurons}
 var layers = {
 	0: "",
@@ -71,23 +73,33 @@ func tanh_derivative(input: float) -> float:
 	var y = tanh(input)
 	return 1 - (y * y)
 
+func gaussian(input: float, variance: float) -> float:
+	return exp(-(input * input)/(2 * variance))
+
+func gaussian_derivative(input: float, variance: float) -> float:
+	return gaussian(input, variance) * (-input/variance)
+
 func linear(input: float) -> float:
 	return input
 
-func calculate_neuron_output(value: float, function_name: String) -> float:
+func calculate_neuron_output(value: float, function_name: String, variance: float = 0.0) -> float:
 	if function_name == "Sigmoid":
 		return sigmoid(value)
 	elif function_name == "Tanh":
 		return tanh(value)
+	elif function_name == "Gaussian":
+		return gaussian(value, variance)
 	elif function_name == "Linear":
 		return linear(value)
 	return none(value)
 
-func calculate_derivative_neuron_output(value: float, function_name: String) -> float:
+func calculate_derivative_neuron_output(value: float, function_name: String, variance: float = 0.0) -> float:
 	if function_name == "Sigmoid":
 		return sigmoid_derivative(value)
 	elif function_name == "Tanh":
 		return tanh_derivative(value)
+	elif function_name == "Gaussian":
+		return gaussian_derivative(value, variance)
 	elif function_name == "Linear":
 		return 1
 	return none(value)

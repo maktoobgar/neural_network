@@ -9,11 +9,15 @@ var epoch: int = 0
 var activation_function: String = ""
 var max_number: float = 0
 
+var variance: float = 0
+
 var nc_of_each_layer: Array[int] = []
 var layers: Dictionary = {}
 
 var inputs: Array[Array] = []
 var outputs: Array[Array] = []
+var inputs_test: Array[Array] = []
+var outputs_test: Array[Array] = []
 
 func _ready():
 	%Neurons.set_right_disconnects(true)
@@ -26,6 +30,11 @@ func _show_error() -> void:
 func _show_file_error() -> void:
 	%Popup.title = "Validation Error"
 	%Popup.dialog_text = "Not all input fields in file are valid"
+	%Popup.popup_centered()
+
+func _show_neurons_count_error() -> void:
+	%Popup.title = "Validation Error"
+	%Popup.dialog_text = "Input count is not the same as neurons count of the first layer"
 	%Popup.popup_centered()
 
 func get_network_inputs() -> void:
@@ -182,20 +191,60 @@ func _on_train_button_button_up():
 			var one_row_inputs = inputs[row_key]
 			var one_row_outputs = outputs[row_key]
 			for i in range(len(one_row_inputs)):
-				layers["in"].inputs_outputs[i].value = str(one_row_inputs[i] / max_number)
+				Global.learning_point = one_row_inputs
+				if %Classification.value:
+					layers["in"].inputs_outputs[i].value = str(one_row_inputs[i] / max_number)
+				else:
+					layers["in"].inputs_outputs[i].value = str(one_row_inputs[i])
 			for i in range(len(one_row_outputs)):
 				layers["out"].inputs_outputs[i].desired_output = str(one_row_outputs[i])
 			_run_learning_process()
 
 func _on_test_button_button_up():
+	%FileDialogTest.popup_centered()
+
+func _get_test_inputs_and_outputs(path: String) -> bool:
+	if not are_network_inputs_valid():
+		return false
+	inputs_test = []
+	outputs_test = []
+	var file = FileAccess.open(path, FileAccess.READ)
+	var content = file.get_as_text()
+	var splits = content.split("\n", false)
+	for line in splits:
+		var line_splits = line.strip_escapes().split(",", false)
+		if len(line_splits) == inputs_count + nc_of_each_layer[len(nc_of_each_layer) - 1]:
+			var inputs_temp = []
+			var outputs_temp = []
+			for i in len(line_splits):
+				var data = line_splits[i].strip_escapes()
+				if i < inputs_count:
+					data = float(data)
+					inputs_temp.append(data)
+					if data > max_number:
+						max_number = data
+				else:
+					outputs_temp.append(float(data))
+			inputs_test.append(inputs_temp)
+			outputs_test.append(outputs_temp)
+	if len(inputs_test) == 0 or len(outputs_test) == 0:
+		_show_file_error()
+		inputs_test = []
+		outputs_test = []
+		return false
+	return true
+
+func _on_file_dialog_test_file_selected(path: String):
+	if not _get_test_inputs_and_outputs(path):
+		return
 	get_learning_inputs()
 	if not are_learning_inputs_valid():
 		return
 	var passed: float = 0
 	var failed: float = 0
-	for row_key in range(len(inputs)):
-		var one_row_inputs = inputs[row_key]
-		var one_row_outputs = outputs[row_key]
+	for row_key in range(len(inputs_test)):
+		var one_row_inputs = inputs_test[row_key]
+		var one_row_outputs = outputs_test[row_key]
 		for i in range(len(one_row_inputs)):
 			layers["in"].inputs_outputs[i].value = str(one_row_inputs[i] / max_number)
 		for i in range(len(one_row_outputs)):
@@ -241,7 +290,7 @@ func _just_feed_forward_all_nodes_and_check(one_row_outputs: Array) -> bool:
 	# Check
 	var passed = true
 	for i in range(len(one_row_outputs)):
-		if layers["out"].inputs_outputs[i].value != one_row_outputs[i]:
+		if not layers["out"].inputs_outputs[i].valid:
 			passed = false
 			break
 	return passed
@@ -295,6 +344,31 @@ func _on_file_dialog_file_selected(path: String):
 					outputs_temp.append(float(data))
 			inputs.append(inputs_temp)
 			outputs.append(outputs_temp)
+	# If gaussian
+	if activation_function == "Gaussian":
+		if len(layers["1"].all_neurons) != len(inputs):
+			_show_neurons_count_error()
+			inputs = []
+			outputs = []
+			return
+		# Assign the points into neurons
+		layers["1"].add_center_points(inputs)
+		# Calculate the longest distance between any two centers, then calculate variance
+		var longest = -INF
+		for i in range(len(inputs)):
+			var input1 = inputs[i]
+			for j in range(len(inputs)):
+				if i == j:
+					continue
+				var input2 = inputs[j]
+				var distance = 0
+				for k in range(len(input1)):
+					distance += pow(input1[k] - input2[k], 2)
+				if distance > longest:
+					longest = distance
+		variance = roundf(longest / (2 * len(inputs)))
+		%Variance.value = str(variance)
+	
 	if len(inputs) == 0 or len(outputs) == 0:
 		_show_file_error()
 		return
@@ -303,3 +377,6 @@ func _on_file_dialog_file_selected(path: String):
 
 func _on_input_button_button_up():
 	%FileDialog.popup_centered()
+
+func _on_activation_function_item_selected(inputControl):
+	%Variance.visible = inputControl.value == "Gaussian"

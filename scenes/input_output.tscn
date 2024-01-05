@@ -28,7 +28,7 @@ visible = false
 layout_mode = 2
 value = "Same"
 text = "Consider As:"
-options = Array[String](["Same", "Out>0", "Out>0.5"])
+options = Array[String](["Same", "Out>0", "Out>0.5", "5 Unit Difference", "10 Unit Difference", "20 Unit Difference"])
 initial_value = "0"
 input_type = "OptionButton"
 

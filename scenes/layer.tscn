@@ -28,8 +28,17 @@ unique_name_in_owner = true
 layout_mode = 2
 value = "Sigmoid"
 text = "Activation Function:"
-options = Array[String](["None", "Sigmoid", "Tanh", "Linear"])
+options = Array[String](["None", "Sigmoid", "Tanh", "Linear", "Gaussian"])
 initial_value = "0"
 input_type = "OptionButton"
 
+[node name="Bias" parent="Menu" instance=ExtResource("2_kcbq1")]
+unique_name_in_owner = true
+layout_mode = 2
+value = "1"
+text = "Bias:"
+initial_value = "1"
+input_type = "CheckBox"
+
 [connection signal="item_selected" from="Menu/ActivationFunction" to="." method="_on_activation_function_item_selected"]
+[connection signal="checkbox_value_changed" from="Menu/Bias" to="." method="_on_bias_checkbox_value_changed"]
